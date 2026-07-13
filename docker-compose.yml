@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.0
-    container_name: g08_app
+    container_name: g08_db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: g08pass2026
