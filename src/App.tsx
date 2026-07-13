@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Car, 
-  Calendar, 
-  Clock, 
-  User, 
-  Users, 
-  MapPin, 
-  FileText, 
-  CheckCircle, 
-  AlertTriangle, 
-  X, 
-  Check, 
-  Trash2, 
-  Edit3, 
-  Plus, 
-  Search, 
-  Languages, 
-  Bell, 
-  Phone, 
-  ShieldAlert, 
-  Layers, 
-  TrendingUp, 
-  CheckSquare, 
+import {
+  Car,
+  Calendar,
+  Clock,
+  User,
+  Users,
+  MapPin,
+  FileText,
+  CheckCircle,
+  AlertTriangle,
+  X,
+  Check,
+  Trash2,
+  Edit3,
+  Plus,
+  Search,
+  Languages,
+  Bell,
+  Phone,
+  ShieldAlert,
+  Layers,
+  TrendingUp,
+  CheckSquare,
   ChevronRight,
   Info
 } from 'lucide-react';
@@ -219,7 +219,7 @@ export default function App() {
   // Check date overlap logic
   const checkVehicleAvailability = (vehicleId: string, startD: string, endD: string, startT: string, endT: string, skipBookingId?: string): boolean => {
     if (!startD || !endD) return true;
-    
+
     // Parse requested periods
     const reqStart = new Date(`${startD}T${startT || '00:00'}`);
     const reqEnd = new Date(`${endD}T${endT || '23:59'}`);
@@ -228,8 +228,8 @@ export default function App() {
     if (isNaN(reqStart.getTime()) || isNaN(reqEnd.getTime())) return true;
 
     // Filter approved or pending bookings
-    const activeBookings = bookings.filter(b => 
-      b.vehicleId === vehicleId && 
+    const activeBookings = bookings.filter(b =>
+      b.vehicleId === vehicleId &&
       b.id !== skipBookingId &&
       (b.status === 'approved' || b.status === 'pending')
     );
@@ -317,9 +317,9 @@ export default function App() {
     // Double check overlap
     const isAvail = checkVehicleAvailability(vehicleId, startDate, endDate, startTime, endTime);
     if (!isAvail) {
-      setAlertMsg({ 
-        type: 'error', 
-        text: lang === 'th' ? 'ขออภัย ยานพาหนะนี้ถูกจองคาบเกี่ยวเวลาเดียวกันไปแล้ว' : 'Sorry, this vehicle is already reserved for the selected timeframe.' 
+      setAlertMsg({
+        type: 'error',
+        text: lang === 'th' ? 'ขออภัย ยานพาหนะนี้ถูกจองคาบเกี่ยวเวลาเดียวกันไปแล้ว' : 'Sorry, this vehicle is already reserved for the selected timeframe.'
       });
       return;
     }
@@ -471,13 +471,13 @@ export default function App() {
   // Helper lists & search logic
   const filteredVehicles = vehicles.filter(car => {
     const query = searchCar.toLowerCase();
-    const matchesSearch = 
+    const matchesSearch =
       car.modelTh.toLowerCase().includes(query) ||
       car.modelEn.toLowerCase().includes(query) ||
       car.plateNumber.toLowerCase().includes(query) ||
       car.driverNameTh.toLowerCase().includes(query) ||
       car.driverNameEn.toLowerCase().includes(query);
-    
+
     if (typeFilter === 'all') return matchesSearch;
     return matchesSearch && car.type === typeFilter;
   });
@@ -490,7 +490,7 @@ export default function App() {
   const totalBookingsCount = bookings.length;
   const approvedBookingsCount = bookings.filter(b => b.status === 'approved').length;
   const pendingBookingsCount = bookings.filter(b => b.status === 'pending').length;
-  
+
   // Fleet utilization calculations
   const totalFleetSize = vehicles.length;
   const busyOrMaintenanceFleet = vehicles.filter(v => v.status !== 'available').length;
@@ -549,16 +549,16 @@ export default function App() {
       } else {
         setCurrentTab('bookings');
       }
-      setAlertMsg({ 
-        type: 'success', 
-        text: lang === 'th' ? `ยินดีต้อนรับกลับมา คุณ ${user.name}` : `Welcome back, ${user.name}` 
+      setAlertMsg({
+        type: 'success',
+        text: lang === 'th' ? `ยินดีต้อนรับกลับมา คุณ ${user.name}` : `Welcome back, ${user.name}`
       });
     };
 
     return (
-      <AuthScreen 
-        lang={lang} 
-        setLang={setLang} 
+      <AuthScreen
+        lang={lang}
+        setLang={setLang}
         onLoginSuccess={handleLoginSuccess}
       />
     );
@@ -595,7 +595,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans relative antialiased">
-      
+
       {/* Alert Banner / Modal Notification */}
       <AnimatePresence>
         {alertMsg.type && (
@@ -603,11 +603,10 @@ export default function App() {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-xl shadow-xl flex items-center justify-between space-x-3 w-11/12 max-w-lg border ${
-              alertMsg.type === 'success' 
-                ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+            className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-xl shadow-xl flex items-center justify-between space-x-3 w-11/12 max-w-lg border ${alertMsg.type === 'success'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
                 : 'bg-rose-50 border-rose-200 text-rose-800'
-            }`}
+              }`}
           >
             <div className="flex items-center space-x-3">
               {alertMsg.type === 'success' ? (
@@ -617,7 +616,7 @@ export default function App() {
               )}
               <span className="text-sm font-medium">{alertMsg.text}</span>
             </div>
-            <button 
+            <button
               onClick={() => setAlertMsg({ type: null, text: '' })}
               className="text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
             >
@@ -630,7 +629,7 @@ export default function App() {
       {/* Primary Header */}
       <header id="main-app-header" className="bg-white border-b border-slate-200 sticky top-0 z-40 h-20 flex items-center shadow-sm">
         <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          
+
           {/* Logo Brand */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md shadow-blue-500/20">
@@ -646,7 +645,7 @@ export default function App() {
 
           {/* Right Header Navigation */}
           <div className="flex items-center space-x-4">
-            
+
             {/* Bilingual Translation Language Switcher */}
             <button
               onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
@@ -685,14 +684,14 @@ export default function App() {
                         {t('notificationCenter')}
                       </span>
                       <div className="flex space-x-2">
-                        <button 
+                        <button
                           onClick={handleMarkAllRead}
                           className="text-[10px] font-bold text-blue-600 hover:underline cursor-pointer"
                         >
                           {t('allRead')}
                         </button>
                         <span className="text-slate-300">|</span>
-                        <button 
+                        <button
                           onClick={handleClearAllNotifications}
                           className="text-[10px] font-bold text-slate-550 hover:underline cursor-pointer"
                         >
@@ -708,16 +707,15 @@ export default function App() {
                         </div>
                       ) : (
                         userNotifications.map(n => (
-                          <div 
-                            key={n.id} 
+                          <div
+                            key={n.id}
                             className={`p-3.5 text-xs transition-colors ${n.read ? 'bg-white' : 'bg-blue-50/40'}`}
                           >
                             <div className="flex items-start justify-between space-x-1 mb-1">
-                              <span className={`font-semibold ${
-                                n.type === 'success' ? 'text-emerald-700' :
-                                n.type === 'error' ? 'text-rose-700' :
-                                n.type === 'warning' ? 'text-amber-700' : 'text-slate-700'
-                              }`}>
+                              <span className={`font-semibold ${n.type === 'success' ? 'text-emerald-700' :
+                                  n.type === 'error' ? 'text-rose-700' :
+                                    n.type === 'warning' ? 'text-amber-700' : 'text-slate-700'
+                                }`}>
                                 {lang === 'th' ? n.titleTh : n.titleEn}
                               </span>
                               <span className="text-[9px] text-slate-400 font-mono">
@@ -749,7 +747,7 @@ export default function App() {
                   {t(role)}
                 </p>
               </div>
-              
+
               <button
                 onClick={handleLogout}
                 className="px-2 py-1 bg-rose-50 border border-rose-200 hover:bg-rose-100/80 text-rose-600 text-[10px] font-bold rounded-lg transition-colors cursor-pointer flex items-center gap-1 shadow-xs"
@@ -767,11 +765,11 @@ export default function App() {
 
       {/* Main Workspace Frame */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
-        
+
         {/* Navigation Sidebar Panel */}
         <aside className="w-full lg:w-64 flex-shrink-0">
           <nav className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-2 sticky top-28 text-left">
-            
+
             {/* Section label */}
             <div className="px-1.5 mb-2.5">
               <span className="text-[10px] font-bold text-slate-400 tracking-wider font-mono uppercase">
@@ -784,11 +782,10 @@ export default function App() {
               <>
                 <button
                   onClick={() => setCurrentTab('bookings')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                    currentTab === 'bookings'
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'bookings'
                       ? 'bg-blue-50 text-blue-700 shadow-none border-none'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
                   <Calendar className={`w-4 h-4 ${currentTab === 'bookings' ? 'text-blue-700' : 'text-slate-400'}`} />
                   <span className="font-heading">{t('tabBookings')}</span>
@@ -799,11 +796,10 @@ export default function App() {
 
                 <button
                   onClick={() => setCurrentTab('new-booking')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                    currentTab === 'new-booking'
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'new-booking'
                       ? 'bg-blue-50 text-blue-700 shadow-none border-none'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
                   <Plus className={`w-4 h-4 ${currentTab === 'new-booking' ? 'text-blue-700' : 'text-slate-400'}`} />
                   <span className="font-heading">{t('tabNewBooking')}</span>
@@ -816,11 +812,10 @@ export default function App() {
               <>
                 <button
                   onClick={() => setCurrentTab('admin-bookings')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                    currentTab === 'admin-bookings'
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'admin-bookings'
                       ? 'bg-slate-100 text-slate-900 shadow-none border-none'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
                   <CheckSquare className={`w-4 h-4 ${currentTab === 'admin-bookings' ? 'text-slate-900' : 'text-slate-400'}`} />
                   <span className="font-heading">{t('tabAdminBookings')}</span>
@@ -833,11 +828,10 @@ export default function App() {
 
                 <button
                   onClick={() => setCurrentTab('admin-vehicles')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                    currentTab === 'admin-vehicles'
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'admin-vehicles'
                       ? 'bg-slate-100 text-slate-900 shadow-none border-none'
                       : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                    }`}
                 >
                   <Car className={`w-4 h-4 ${currentTab === 'admin-vehicles' ? 'text-slate-900' : 'text-slate-400'}`} />
                   <span className="font-heading">{t('tabAdminVehicles')}</span>
@@ -850,14 +844,13 @@ export default function App() {
 
             {/* Shared Informational Panels */}
             <hr className="my-3 border-slate-200" />
-            
+
             <button
               onClick={() => setCurrentTab('vehicles')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                currentTab === 'vehicles'
+              className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'vehicles'
                   ? 'bg-blue-50 text-blue-700 shadow-none border-none'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              }`}
+                }`}
             >
               <Info className={`w-4 h-4 ${currentTab === 'vehicles' ? 'text-blue-700' : 'text-slate-400'}`} />
               <span className="font-heading">{t('tabVehicles')}</span>
@@ -865,11 +858,10 @@ export default function App() {
 
             <button
               onClick={() => setCurrentTab('reports')}
-              className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                currentTab === 'reports'
+              className={`w-full flex items-center space-x-3 px-4 py-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${currentTab === 'reports'
                   ? 'bg-blue-50 text-blue-700 shadow-none border-none'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              }`}
+                }`}
             >
               <TrendingUp className={`w-4 h-4 ${currentTab === 'reports' ? 'text-blue-700' : 'text-slate-400'}`} />
               <span className="font-heading">{t('tabReports')}</span>
@@ -898,7 +890,7 @@ export default function App() {
               transition={{ duration: 0.18 }}
               className="space-y-6"
             >
-              
+
               {/* TAB: MY BOOKINGS (For students and staff) */}
               {currentTab === 'bookings' && (
                 <div id="bookings-window" className="space-y-4 text-left">
@@ -961,8 +953,8 @@ export default function App() {
                           const carModel = car ? (lang === 'th' ? car.modelTh : car.modelEn).toLowerCase() : '';
                           const carPlate = car ? car.plateNumber.toLowerCase() : '';
                           const carDriver = car ? (lang === 'th' ? car.driverNameTh : car.driverNameEn).toLowerCase() : '';
-                          
-                          const matchesSearch = 
+
+                          const matchesSearch =
                             b.destination.toLowerCase().includes(query) ||
                             b.purpose.toLowerCase().includes(query) ||
                             carModel.includes(query) ||
@@ -972,127 +964,126 @@ export default function App() {
                           const matchesStatus = statusFilter === 'all' || b.status === statusFilter;
                           return matchesSearch && matchesStatus;
                         }).length === 0 ? (
-                          <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
-                            <Search className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                            <p className="text-sm font-semibold">{lang === 'th' ? 'ไม่พบข้อมูลการจองที่ตรงกับการค้นหา' : 'No bookings match your search filters.'}</p>
-                          </div>
-                        ) : (
-                          <div className="grid grid-cols-1 gap-5">
-                            {bookings
-                              .filter(b => b.userId === activeUserProfile().id)
-                              .filter(b => {
-                                const query = searchBooking.toLowerCase();
-                                const car = vehicles.find(v => v.id === b.vehicleId);
-                                const carModel = car ? (lang === 'th' ? car.modelTh : car.modelEn).toLowerCase() : '';
-                                const carPlate = car ? car.plateNumber.toLowerCase() : '';
-                                const carDriver = car ? (lang === 'th' ? car.driverNameTh : car.driverNameEn).toLowerCase() : '';
-                                
-                                const matchesSearch = 
-                                  b.destination.toLowerCase().includes(query) ||
-                                  b.purpose.toLowerCase().includes(query) ||
-                                  carModel.includes(query) ||
-                                  carPlate.includes(query) ||
-                                  carDriver.includes(query);
+                        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
+                          <Search className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                          <p className="text-sm font-semibold">{lang === 'th' ? 'ไม่พบข้อมูลการจองที่ตรงกับการค้นหา' : 'No bookings match your search filters.'}</p>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 gap-5">
+                          {bookings
+                            .filter(b => b.userId === activeUserProfile().id)
+                            .filter(b => {
+                              const query = searchBooking.toLowerCase();
+                              const car = vehicles.find(v => v.id === b.vehicleId);
+                              const carModel = car ? (lang === 'th' ? car.modelTh : car.modelEn).toLowerCase() : '';
+                              const carPlate = car ? car.plateNumber.toLowerCase() : '';
+                              const carDriver = car ? (lang === 'th' ? car.driverNameTh : car.driverNameEn).toLowerCase() : '';
 
-                                const matchesStatus = statusFilter === 'all' || b.status === statusFilter;
-                                return matchesSearch && matchesStatus;
-                              })
-                              .map(b => {
-                                const car = vehicles.find(v => v.id === b.vehicleId);
-                                return (
-                                  <div 
-                                    key={b.id} 
-                                    className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row justify-between gap-6 hover:shadow-md transition-shadow relative overflow-hidden"
-                                  >
-                                    {/* Left part: description */}
-                                    <div className="space-y-4 flex-1">
-                                      <div className="flex flex-wrap items-center gap-2">
-                                        {/* Status indicators */}
-                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border ${
-                                          b.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                              const matchesSearch =
+                                b.destination.toLowerCase().includes(query) ||
+                                b.purpose.toLowerCase().includes(query) ||
+                                carModel.includes(query) ||
+                                carPlate.includes(query) ||
+                                carDriver.includes(query);
+
+                              const matchesStatus = statusFilter === 'all' || b.status === statusFilter;
+                              return matchesSearch && matchesStatus;
+                            })
+                            .map(b => {
+                              const car = vehicles.find(v => v.id === b.vehicleId);
+                              return (
+                                <div
+                                  key={b.id}
+                                  className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row justify-between gap-6 hover:shadow-md transition-shadow relative overflow-hidden"
+                                >
+                                  {/* Left part: description */}
+                                  <div className="space-y-4 flex-1">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      {/* Status indicators */}
+                                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border ${b.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                                           b.status === 'approved' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                          b.status === 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-slate-50 text-slate-600 border-slate-200'
+                                            b.status === 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-slate-50 text-slate-600 border-slate-200'
                                         }`}>
-                                          {t(b.status)}
-                                        </span>
-                                        <span className="text-[10px] font-mono text-slate-400 font-bold bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
-                                          ID: {b.id}
-                                        </span>
-                                      </div>
-
-                                      <div className="space-y-1.5">
-                                        <h3 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-                                          <MapPin className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
-                                          <span>{b.destination}</span>
-                                        </h3>
-                                        <p className="text-xs text-slate-600 font-sans">
-                                          <strong className="text-slate-700 font-semibold">{t('purpose')}:</strong> {b.purpose}
-                                        </p>
-                                      </div>
-
-                                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs pt-3.5 border-t border-slate-100 text-slate-500 font-medium">
-                                        <div className="flex items-center gap-2">
-                                          <Calendar className="w-4 h-4 text-slate-400" />
-                                          <span>{b.startDate === b.endDate ? b.startDate : `${b.startDate} - ${b.endDate}`}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Clock className="w-4 h-4 text-slate-400" />
-                                          <span>{b.startTime} - {b.endTime}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Users className="w-4 h-4 text-slate-400" />
-                                          <span>{b.passengers} {t('seats')}</span>
-                                        </div>
-                                      </div>
-
-                                      {/* Vehicle associated detail */}
-                                      {car && (
-                                        <div className="bg-slate-50 p-3 rounded-xl flex items-center justify-between text-xs text-slate-600 border border-slate-200">
-                                          <div className="flex items-center gap-2.5">
-                                            <div className="bg-white p-2 rounded-lg border border-slate-200 text-blue-600">
-                                              <Car className="w-4.5 h-4.5" />
-                                            </div>
-                                            <div>
-                                              <p className="font-bold text-slate-800 font-heading">{lang === 'th' ? car.modelTh : car.modelEn}</p>
-                                              <p className="text-[10px] font-mono text-slate-500 font-semibold">{car.plateNumber} • Capacity {car.capacity}</p>
-                                            </div>
-                                          </div>
-                                          <div className="text-right">
-                                            <p className="font-bold text-[11px] text-slate-700">{lang === 'th' ? car.driverNameTh : car.driverNameEn}</p>
-                                            <p className="text-[10px] text-slate-400 font-mono mt-0.5 flex items-center justify-end">
-                                              <Phone className="w-2.5 h-2.5 mr-0.5" />
-                                              {car.driverPhone}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      )}
-
-                                      {/* Admin Rejection Reason notes projection */}
-                                      {b.notes && b.status === 'rejected' && (
-                                        <div className="bg-rose-50 border border-rose-100 rounded-xl p-3 text-xs text-rose-800">
-                                          <strong>{lang === 'th' ? 'เหตุผลที่ปฏิเสธ:' : 'Reason for rejection:'}</strong> {b.notes}
-                                        </div>
-                                      )}
+                                        {t(b.status)}
+                                      </span>
+                                      <span className="text-[10px] font-mono text-slate-400 font-bold bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                                        ID: {b.id}
+                                      </span>
                                     </div>
 
-                                    {/* Right part: action */}
-                                    <div className="flex items-start md:items-end justify-end">
-                                      {b.status === 'pending' && (
-                                        <button
-                                          onClick={() => handleUpdateBookingStatus(b.id, 'cancelled')}
-                                          className="px-3 py-1.5 border border-slate-200 text-slate-500 hover:text-rose-650 hover:bg-rose-50 hover:border-rose-200 rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer"
-                                        >
-                                          <X className="w-3.5 h-3.5" />
-                                          <span>{t('cancel')}</span>
-                                        </button>
-                                      )}
+                                    <div className="space-y-1.5">
+                                      <h3 className="text-base font-bold text-slate-900 font-heading flex items-center gap-2">
+                                        <MapPin className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
+                                        <span>{b.destination}</span>
+                                      </h3>
+                                      <p className="text-xs text-slate-600 font-sans">
+                                        <strong className="text-slate-700 font-semibold">{t('purpose')}:</strong> {b.purpose}
+                                      </p>
                                     </div>
 
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs pt-3.5 border-t border-slate-100 text-slate-500 font-medium">
+                                      <div className="flex items-center gap-2">
+                                        <Calendar className="w-4 h-4 text-slate-400" />
+                                        <span>{b.startDate === b.endDate ? b.startDate : `${b.startDate} - ${b.endDate}`}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4 text-slate-400" />
+                                        <span>{b.startTime} - {b.endTime}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Users className="w-4 h-4 text-slate-400" />
+                                        <span>{b.passengers} {t('seats')}</span>
+                                      </div>
+                                    </div>
+
+                                    {/* Vehicle associated detail */}
+                                    {car && (
+                                      <div className="bg-slate-50 p-3 rounded-xl flex items-center justify-between text-xs text-slate-600 border border-slate-200">
+                                        <div className="flex items-center gap-2.5">
+                                          <div className="bg-white p-2 rounded-lg border border-slate-200 text-blue-600">
+                                            <Car className="w-4.5 h-4.5" />
+                                          </div>
+                                          <div>
+                                            <p className="font-bold text-slate-800 font-heading">{lang === 'th' ? car.modelTh : car.modelEn}</p>
+                                            <p className="text-[10px] font-mono text-slate-500 font-semibold">{car.plateNumber} • Capacity {car.capacity}</p>
+                                          </div>
+                                        </div>
+                                        <div className="text-right">
+                                          <p className="font-bold text-[11px] text-slate-700">{lang === 'th' ? car.driverNameTh : car.driverNameEn}</p>
+                                          <p className="text-[10px] text-slate-400 font-mono mt-0.5 flex items-center justify-end">
+                                            <Phone className="w-2.5 h-2.5 mr-0.5" />
+                                            {car.driverPhone}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {/* Admin Rejection Reason notes projection */}
+                                    {b.notes && b.status === 'rejected' && (
+                                      <div className="bg-rose-50 border border-rose-100 rounded-xl p-3 text-xs text-rose-800">
+                                        <strong>{lang === 'th' ? 'เหตุผลที่ปฏิเสธ:' : 'Reason for rejection:'}</strong> {b.notes}
+                                      </div>
+                                    )}
                                   </div>
-                                );
-                              })}
-                          </div>
-                        )}
+
+                                  {/* Right part: action */}
+                                  <div className="flex items-start md:items-end justify-end">
+                                    {b.status === 'pending' && (
+                                      <button
+                                        onClick={() => handleUpdateBookingStatus(b.id, 'cancelled')}
+                                        className="px-3 py-1.5 border border-slate-200 text-slate-500 hover:text-rose-650 hover:bg-rose-50 hover:border-rose-200 rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer"
+                                      >
+                                        <X className="w-3.5 h-3.5" />
+                                        <span>{t('cancel')}</span>
+                                      </button>
+                                    )}
+                                  </div>
+
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1112,7 +1103,7 @@ export default function App() {
                   </div>
 
                   <form onSubmit={handleSubmitBooking} className="space-y-5">
-                    
+
                     {/* Time & Dates selector grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                       <div>
@@ -1219,11 +1210,10 @@ export default function App() {
                               key={car.id}
                               type="button"
                               onClick={() => setFormData({ ...formData, vehicleId: car.id })}
-                              className={`p-4 rounded-xl border text-left transition-all relative overflow-hidden cursor-pointer ${
-                                formData.vehicleId === car.id
+                              className={`p-4 rounded-xl border text-left transition-all relative overflow-hidden cursor-pointer ${formData.vehicleId === car.id
                                   ? 'bg-blue-50 border-blue-600 ring-2 ring-blue-100 shadow-sm'
                                   : 'bg-white border-slate-200 hover:border-slate-350 hover:shadow-xs'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-[9px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 uppercase tracking-wide">
@@ -1265,11 +1255,10 @@ export default function App() {
                     <button
                       type="submit"
                       disabled={!formData.vehicleId}
-                      className={`w-full py-3.5 rounded-xl text-xs font-bold text-white transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5 ${
-                        formData.vehicleId 
-                          ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/20' 
+                      className={`w-full py-3.5 rounded-xl text-xs font-bold text-white transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5 ${formData.vehicleId
+                          ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/20'
                           : 'bg-slate-300 cursor-not-allowed shadow-none'
-                      }`}
+                        }`}
                     >
                       <Check className="w-4.5 h-4.5" />
                       <span>{t('submitBooking')}</span>
@@ -1323,8 +1312,8 @@ export default function App() {
                       </div>
                     ) : (
                       filteredVehicles.map(car => (
-                        <div 
-                          key={car.id} 
+                        <div
+                          key={car.id}
                           className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all p-5 space-y-4 flex flex-col justify-between"
                         >
                           <div>
@@ -1332,10 +1321,9 @@ export default function App() {
                               <span className="text-[9px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full uppercase tracking-wider">
                                 {t(car.type)}
                               </span>
-                              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide border ${
-                                car.status === 'available' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                car.status === 'maintenance' ? 'bg-amber-50 text-amber-750 border-amber-200' : 'bg-rose-50 text-rose-700 border-rose-200'
-                              }`}>
+                              <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide border ${car.status === 'available' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                  car.status === 'maintenance' ? 'bg-amber-50 text-amber-750 border-amber-200' : 'bg-rose-50 text-rose-700 border-rose-200'
+                                }`}>
                                 {t(car.status)}
                               </span>
                             </div>
@@ -1362,7 +1350,7 @@ export default function App() {
                               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{t('driver')}</p>
                               <p className="font-bold text-slate-800 mt-0.5 font-heading leading-tight">{lang === 'th' ? car.driverNameTh : car.driverNameEn}</p>
                             </div>
-                            <a 
+                            <a
                               href={`tel:${car.driverPhone}`}
                               className="bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-500 hover:bg-slate-50 p-2.5 rounded-lg transition-all flex items-center shadow-xs"
                               title="Call Driver"
@@ -1442,8 +1430,8 @@ export default function App() {
                                   const carModel = car ? (lang === 'th' ? car.modelTh : car.modelEn).toLowerCase() : '';
                                   const carPlate = car ? car.plateNumber.toLowerCase() : '';
                                   const carDriver = car ? (lang === 'th' ? car.driverNameTh : car.driverNameEn).toLowerCase() : '';
-                                  
-                                  const matchesSearch = 
+
+                                  const matchesSearch =
                                     b.userName.toLowerCase().includes(query) ||
                                     b.destination.toLowerCase().includes(query) ||
                                     b.purpose.toLowerCase().includes(query) ||
@@ -1458,104 +1446,103 @@ export default function App() {
                                 .map(b => {
                                   const car = vehicles.find(v => v.id === b.vehicleId);
                                   return (
-                                <tr key={b.id} className="hover:bg-slate-50/40 transition-colors">
-                                  {/* Operator profile */}
-                                  <td className="px-5 py-4">
-                                    <p className="font-bold text-slate-900 text-sm font-heading">{b.userName}</p>
-                                    <p className="text-[10px] text-slate-400 flex items-center mt-1">
-                                      <span className="font-bold uppercase bg-slate-100 py-0.5 px-2 rounded-md mr-2 text-slate-600 text-[9px] border border-slate-200">
-                                        {t(b.userRole)}
-                                      </span>
-                                      📞 {b.userPhone}
-                                    </p>
-                                  </td>
-                                  
-                                  {/* Vehicle target */}
-                                  <td className="px-5 py-4">
-                                    {car ? (
-                                      <div>
-                                        <p className="font-bold text-slate-800 font-heading">{lang === 'th' ? car.modelTh : car.modelEn}</p>
-                                        <p className="text-[10px] font-mono text-slate-500 font-semibold mt-0.5">{car.plateNumber}</p>
-                                      </div>
-                                    ) : (
-                                      <p className="text-slate-400 font-semibold">-</p>
-                                    )}
-                                  </td>
+                                    <tr key={b.id} className="hover:bg-slate-50/40 transition-colors">
+                                      {/* Operator profile */}
+                                      <td className="px-5 py-4">
+                                        <p className="font-bold text-slate-900 text-sm font-heading">{b.userName}</p>
+                                        <p className="text-[10px] text-slate-400 flex items-center mt-1">
+                                          <span className="font-bold uppercase bg-slate-100 py-0.5 px-2 rounded-md mr-2 text-slate-600 text-[9px] border border-slate-200">
+                                            {t(b.userRole)}
+                                          </span>
+                                          📞 {b.userPhone}
+                                        </p>
+                                      </td>
 
-                                  {/* Schedule details */}
-                                  <td className="px-5 py-4 font-mono text-slate-600 font-medium">
-                                    <div className="flex items-center space-x-1.5 mb-1 text-slate-700 font-bold">
-                                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                                      <span>{b.startDate}</span>
-                                    </div>
-                                    <div className="flex items-center space-x-1.5">
-                                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                                      <span>{b.startTime} - {b.endTime}</span>
-                                    </div>
-                                  </td>
+                                      {/* Vehicle target */}
+                                      <td className="px-5 py-4">
+                                        {car ? (
+                                          <div>
+                                            <p className="font-bold text-slate-800 font-heading">{lang === 'th' ? car.modelTh : car.modelEn}</p>
+                                            <p className="text-[10px] font-mono text-slate-500 font-semibold mt-0.5">{car.plateNumber}</p>
+                                          </div>
+                                        ) : (
+                                          <p className="text-slate-400 font-semibold">-</p>
+                                        )}
+                                      </td>
 
-                                  {/* Destination details & Purpose */}
-                                  <td className="px-5 py-4 max-w-xs">
-                                    <p className="font-bold text-slate-900 truncate mb-1 flex items-center gap-1.5 font-heading">
-                                      <MapPin className="w-4 h-4 text-rose-500 flex-shrink-0" />
-                                      <span>{b.destination}</span>
-                                    </p>
-                                    <p className="text-[10px] text-slate-500 truncate leading-relaxed">{b.purpose}</p>
-                                  </td>
+                                      {/* Schedule details */}
+                                      <td className="px-5 py-4 font-mono text-slate-600 font-medium">
+                                        <div className="flex items-center space-x-1.5 mb-1 text-slate-700 font-bold">
+                                          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                                          <span>{b.startDate}</span>
+                                        </div>
+                                        <div className="flex items-center space-x-1.5">
+                                          <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                          <span>{b.startTime} - {b.endTime}</span>
+                                        </div>
+                                      </td>
 
-                                  {/* State indicator status */}
-                                  <td className="px-5 py-4 text-center">
-                                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border tracking-wide ${
-                                      b.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-250 animate-pulse' :
-                                      b.status === 'approved' ? 'bg-emerald-50 text-emerald-700 border-emerald-250' :
-                                      b.status === 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-250' : 'bg-slate-50 text-slate-500 border-slate-200'
-                                    }`}>
-                                      {t(b.status)}
-                                    </span>
-                                  </td>
+                                      {/* Destination details & Purpose */}
+                                      <td className="px-5 py-4 max-w-xs">
+                                        <p className="font-bold text-slate-900 truncate mb-1 flex items-center gap-1.5 font-heading">
+                                          <MapPin className="w-4 h-4 text-rose-500 flex-shrink-0" />
+                                          <span>{b.destination}</span>
+                                        </p>
+                                        <p className="text-[10px] text-slate-500 truncate leading-relaxed">{b.purpose}</p>
+                                      </td>
 
-                                  {/* Action Buttons for admins */}
-                                  <td className="px-5 py-4 text-center">
-                                    <div className="flex items-center justify-center gap-1.5">
-                                      {b.status === 'pending' ? (
-                                        <>
-                                          <button
-                                            onClick={() => handleUpdateBookingStatus(b.id, 'approved')}
-                                            className="px-2.5 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 shadow-sm shadow-emerald-500/10 cursor-pointer"
-                                            title="Approve Booking"
-                                          >
-                                            <Check className="w-3 h-3" />
-                                            <span>{t('approve')}</span>
-                                          </button>
-                                          <button
-                                            onClick={() => openRejectionDialog(b)}
-                                            className="px-2.5 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 shadow-sm shadow-rose-500/10 cursor-pointer"
-                                            title="Reject Booking"
-                                          >
-                                            <X className="w-3 h-3 text-white" />
-                                            <span>{t('reject')}</span>
-                                          </button>
-                                        </>
-                                      ) : b.status === 'approved' ? (
-                                        <button
-                                          onClick={() => handleUpdateBookingStatus(b.id, 'cancelled')}
-                                          className="px-2 py-1.5 border border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer"
-                                        >
-                                          <X className="w-3 h-3" />
-                                          <span>{t('cancel')}</span>
-                                        </button>
-                                      ) : (
-                                        <span className="text-[11px] text-slate-400 font-semibold italic">{t(b.status)}</span>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                      {/* State indicator status */}
+                                      <td className="px-5 py-4 text-center">
+                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border tracking-wide ${b.status === 'pending' ? 'bg-amber-50 text-amber-700 border-amber-250 animate-pulse' :
+                                            b.status === 'approved' ? 'bg-emerald-50 text-emerald-700 border-emerald-250' :
+                                              b.status === 'rejected' ? 'bg-rose-50 text-rose-700 border-rose-250' : 'bg-slate-50 text-slate-500 border-slate-200'
+                                          }`}>
+                                          {t(b.status)}
+                                        </span>
+                                      </td>
+
+                                      {/* Action Buttons for admins */}
+                                      <td className="px-5 py-4 text-center">
+                                        <div className="flex items-center justify-center gap-1.5">
+                                          {b.status === 'pending' ? (
+                                            <>
+                                              <button
+                                                onClick={() => handleUpdateBookingStatus(b.id, 'approved')}
+                                                className="px-2.5 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 shadow-sm shadow-emerald-500/10 cursor-pointer"
+                                                title="Approve Booking"
+                                              >
+                                                <Check className="w-3 h-3" />
+                                                <span>{t('approve')}</span>
+                                              </button>
+                                              <button
+                                                onClick={() => openRejectionDialog(b)}
+                                                className="px-2.5 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 shadow-sm shadow-rose-500/10 cursor-pointer"
+                                                title="Reject Booking"
+                                              >
+                                                <X className="w-3 h-3 text-white" />
+                                                <span>{t('reject')}</span>
+                                              </button>
+                                            </>
+                                          ) : b.status === 'approved' ? (
+                                            <button
+                                              onClick={() => handleUpdateBookingStatus(b.id, 'cancelled')}
+                                              className="px-2 py-1.5 border border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer"
+                                            >
+                                              <X className="w-3 h-3" />
+                                              <span>{t('cancel')}</span>
+                                            </button>
+                                          ) : (
+                                            <span className="text-[11px] text-slate-400 font-semibold italic">{t(b.status)}</span>
+                                          )}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   )}
                 </div>
@@ -1597,7 +1584,7 @@ export default function App() {
                         <h3 className="text-sm font-bold text-slate-900 font-heading">
                           {editingCarId ? t('editCar') : t('addNewCar')}
                         </h3>
-                        <button 
+                        <button
                           onClick={() => setIsAddingCar(false)}
                           className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                         >
@@ -1752,8 +1739,8 @@ export default function App() {
                   {/* Fleet Grid for admin */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {vehicles.map(car => (
-                      <div 
-                        key={car.id} 
+                      <div
+                        key={car.id}
                         className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
                       >
                         <div>
@@ -1761,10 +1748,9 @@ export default function App() {
                             <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full uppercase tracking-wider">
                               {t(car.type)}
                             </span>
-                            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide border ${
-                              car.status === 'available' ? 'bg-emerald-50 text-emerald-750 border-emerald-200' :
-                              car.status === 'maintenance' ? 'bg-amber-50 text-amber-750 border-amber-200' : 'bg-rose-50 text-rose-705 border-rose-200'
-                            }`}>
+                            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide border ${car.status === 'available' ? 'bg-emerald-50 text-emerald-750 border-emerald-200' :
+                                car.status === 'maintenance' ? 'bg-amber-50 text-amber-750 border-amber-200' : 'bg-rose-50 text-rose-705 border-rose-200'
+                              }`}>
                               {t(car.status)}
                             </span>
                           </div>
@@ -1776,12 +1762,12 @@ export default function App() {
 
                           <div className="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-600 space-y-2">
                             <p className="flex items-center gap-1">
-                              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">👥 {t('capacity')}:</span> 
+                              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">👥 {t('capacity')}:</span>
                               <strong className="text-slate-800 font-bold font-heading">{car.capacity} {t('seats')}</strong>
                             </p>
                             <p className="flex items-center gap-1">
-                              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">👤 {t('driver')}:</span> 
-                              <strong className="text-slate-800 font-bold font-heading">{lang === 'th' ? car.driverNameTh : car.driverNameEn}</strong> 
+                              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">👤 {t('driver')}:</span>
+                              <strong className="text-slate-800 font-bold font-heading">{lang === 'th' ? car.driverNameTh : car.driverNameEn}</strong>
                               <span className="text-slate-400 font-mono">({car.driverPhone})</span>
                             </p>
                           </div>
@@ -1823,7 +1809,7 @@ export default function App() {
 
                   {/* Summary Metric cards widgets */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    
+
                     <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-xs flex items-center space-x-4">
                       <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
                         <Calendar className="w-5 h-5" />
@@ -1868,7 +1854,7 @@ export default function App() {
 
                   {/* Grid Layout containing beautiful SVGs */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
+
                     {/* Visual Bar chart of vehicle usage class */}
                     <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-xs">
                       <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wide font-display mb-4">
@@ -1884,25 +1870,23 @@ export default function App() {
                             <div key={idx} className="space-y-1.5">
                               <div className="flex justify-between text-xs font-semibold text-slate-700">
                                 <span className="flex items-center">
-                                  <span className={`w-2.5 h-2.5 rounded-full mr-2 ${
-                                    item.type === 'van' ? 'bg-blue-500' :
-                                    item.type === 'bus' ? 'bg-orange-500' :
-                                    item.type === 'sedan' ? 'bg-emerald-500' : 'bg-indigo-500'
-                                  }`} />
+                                  <span className={`w-2.5 h-2.5 rounded-full mr-2 ${item.type === 'van' ? 'bg-blue-500' :
+                                      item.type === 'bus' ? 'bg-orange-500' :
+                                        item.type === 'sedan' ? 'bg-emerald-500' : 'bg-indigo-500'
+                                    }`} />
                                   {item.labelTh} ({item.type.toUpperCase()})
                                 </span>
                                 <span>{item.bookingsCount} (Trips)</span>
                               </div>
                               <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
-                                <motion.div 
+                                <motion.div
                                   initial={{ width: 0 }}
                                   animate={{ width: `${percentageBar}%` }}
                                   transition={{ duration: 0.6 }}
-                                  className={`h-full rounded-full ${
-                                    item.type === 'van' ? 'bg-blue-500' :
-                                    item.type === 'bus' ? 'bg-orange-500' :
-                                    item.type === 'sedan' ? 'bg-emerald-500' : 'bg-indigo-600'
-                                  }`}
+                                  className={`h-full rounded-full ${item.type === 'van' ? 'bg-blue-500' :
+                                      item.type === 'bus' ? 'bg-orange-500' :
+                                        item.type === 'sedan' ? 'bg-emerald-500' : 'bg-indigo-600'
+                                    }`}
                                 />
                               </div>
                             </div>
@@ -1923,28 +1907,28 @@ export default function App() {
                           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                             {/* Base Gray */}
                             <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f1f5f9" strokeWidth="3" />
-                            
+
                             {/* Segment 1: Approved */}
-                            <circle 
-                              cx="18" cy="18" r="15.915" 
-                              fill="none" 
-                              stroke="#10b981" 
-                              strokeWidth="3.2" 
+                            <circle
+                              cx="18" cy="18" r="15.915"
+                              fill="none"
+                              stroke="#10b981"
+                              strokeWidth="3.2"
                               strokeDasharray={`${totalBookingsCount > 0 ? (approvedBookingsCount / totalBookingsCount) * 100 : 0} ${100 - (totalBookingsCount > 0 ? (approvedBookingsCount / totalBookingsCount) * 100 : 0)}`}
                               strokeDashoffset="0"
                             />
-                            
+
                             {/* Segment 2: Pending */}
-                            <circle 
-                              cx="18" cy="18" r="15.915" 
-                              fill="none" 
-                              stroke="#f59e0b" 
-                              strokeWidth="3.2" 
+                            <circle
+                              cx="18" cy="18" r="15.915"
+                              fill="none"
+                              stroke="#f59e0b"
+                              strokeWidth="3.2"
                               strokeDasharray={`${totalBookingsCount > 0 ? (pendingBookingsCount / totalBookingsCount) * 100 : 0} ${100 - (totalBookingsCount > 0 ? (pendingBookingsCount / totalBookingsCount) * 100 : 0)}`}
                               strokeDashoffset={`-${totalBookingsCount > 0 ? (approvedBookingsCount / totalBookingsCount) * 100 : 0}`}
                             />
                           </svg>
-                          
+
                           {/* Inner Label centered */}
                           <div className="absolute inset-0 flex flex-col items-center justify-center">
                             <span className="text-lg font-black text-slate-800 font-display">{totalBookingsCount}</span>
@@ -2016,8 +2000,8 @@ export default function App() {
             {t('appTitle')} • {lang === 'th' ? 'คณะผู้บริหารจัดการยานพาหนะกองกลาง' : 'Office of University Logistics'}
           </p>
           <p className="opacity-70">
-            {lang === 'th' 
-              ? 'ระบบประสานแผนยานยนต์อัจฉริยะ รองรับแอดมิน นักศึกษา และหน่วยงานปฏิบัติการกองขัดเกลาการจอง' 
+            {lang === 'th'
+              ? 'ระบบประสานแผนยานยนต์อัจฉริยะ รองรับแอดมิน นักศึกษา และหน่วยงานปฏิบัติการกองขัดเกลาการจอง'
               : 'Intelligent automotive reservation portal. Built fully compliant with all client role restrictions.'}
           </p>
           <p className="text-[10px] opacity-40 font-mono">
@@ -2041,7 +2025,7 @@ export default function App() {
                   <ShieldAlert className="w-4 h-4 text-rose-600" />
                   <span>{lang === 'th' ? 'ระบุเหตุผลในการปฏิเสธคำจอง' : 'Provide Rejection Explanation'}</span>
                 </h3>
-                <button 
+                <button
                   onClick={() => setRejectionModalBooking(null)}
                   className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 >
